@@ -44,6 +44,18 @@ npm run dev                        # http://localhost:3000
 Production : `npm run build && npm run start`.
 Ancienne interface Streamlit (optionnelle) : `streamlit run app.py`.
 
+## Déploiement Vercel + Render
+
+Le dépôt contient `render.yaml` pour créer l'API FastAPI sur Render. Le frontend Next.js se déploie séparément sur Vercel. Cette configuration utilise Groq ; la clé API doit rester uniquement dans les variables d'environnement Render.
+
+1. Sur Render, créez un **Blueprint** depuis le dépôt GitHub et validez le service `halfsolution-api` défini dans `render.yaml`.
+2. Dans **Environment** du service Render, renseignez `GROQ_API_KEY` avec votre clé Groq. Après le premier déploiement, testez `https://<service>.onrender.com/api/health` et copiez l'URL du service.
+3. Sur Vercel, importez le même dépôt. Réglez **Root Directory** sur `frontend` et ajoutez `NEXT_PUBLIC_API_URL=https://<service>.onrender.com`, puis déployez.
+4. Copiez le domaine Vercel de production et renseignez-le comme `CORS_ORIGINS` dans Render (par exemple `https://<app>.vercel.app`). Redéployez l'API.
+5. Vérifiez le frontend et `https://<service>.onrender.com/api/ollama/status` ; cette route indique aussi l'état Groq quand `LLM_ENGINE=groq`.
+
+Ne partagez pas votre clé Groq et ne la placez jamais dans une variable `NEXT_PUBLIC_*`. L'offre gratuite Render peut mettre le service en veille ; les jobs d'analyse sont en mémoire et l'historique reste dans le navigateur.
+
 ## Variables d'environnement
 
 Voir `.env.example` (backend : à exporter dans le shell) et `frontend/.env.example`.

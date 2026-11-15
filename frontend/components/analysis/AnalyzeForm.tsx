@@ -95,7 +95,7 @@ export function AnalyzeForm() {
     ollama.phase === "api_down"
       ? { title: ollama.error.message, text: ollama.error.hint }
       : ollama.phase === "ready" && (!ollama.status.connected || !ollama.status.model_available)
-        ? { title: ollama.status.error?.message ?? "Ollama n'est pas prêt.", text: ollama.status.error?.hint }
+      ? { title: ollama.status.error?.message ?? "Le moteur IA n'est pas prêt.", text: ollama.status.error?.hint }
         : null;
 
   return (

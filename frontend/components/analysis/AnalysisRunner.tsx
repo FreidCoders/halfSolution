@@ -16,7 +16,7 @@ const POLL_MS = 2000;
 const MAX_NETWORK_FAILURES = 3;
 
 const STEP_LABELS: Record<string, string> = {
-  connection: "Vérification d'Ollama",
+  connection: "Vérification du moteur IA",
   extraction: "Compréhension et extraction des tâches",
   evaluation: "Évaluation des capacités IA",
   scoring: "Calcul du score",

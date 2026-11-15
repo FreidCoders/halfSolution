@@ -14,18 +14,19 @@ PAYLOAD = {"name": "StyliApp", "audience": "Couturiers", "problem": "Commandes d
 
 class FakeOllama:
     def __init__(self, *a, **k):
-        pass
+        self.model = "test-model"
 
     def check_connection(self):
         pass
 
-    def generate_json(self, prompt):
-        if "analyste produit" in prompt:
+    def generate_json(self, prompt, retries=2):
+        if "Décompose ce produit" in prompt:
             return {"tasks": [{"task": "Organiser les commandes", "weight": 5, "why_it_matters": "x"},
                               {"task": "Rédiger un message", "weight": 1, "why_it_matters": "y"}]}
-        if "Rédiger" in prompt:
-            return {"capability": 90, "autonomy": "élevée", "limitation": "Aucune", "confidence": "moyenne"}
-        return {"capability": 35, "autonomy": "faible", "limitation": "Stockage persistant", "confidence": "moyenne"}
+        return {"evaluations": [
+            {"i": 1, "capability": 35, "autonomy": "faible", "limitation": "Stockage persistant"},
+            {"i": 2, "capability": 90, "autonomy": "élevée", "limitation": "Aucune"},
+        ]}
 
 
 def wait(job_id):

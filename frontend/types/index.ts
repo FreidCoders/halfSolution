@@ -46,6 +46,7 @@ export interface ApiErrorBody {
 }
 
 export interface OllamaStatus {
+  engine: "groq" | "ollama";
   connected: boolean;
   model: string;
   model_available: boolean;

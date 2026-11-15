@@ -5,12 +5,13 @@ import { useOllamaStatus } from "@/hooks/useOllamaStatus";
 import { cn } from "@/lib/utils";
 
 export function describeStatus(state: ReturnType<typeof useOllamaStatus>["state"]): { label: string; ok: boolean; detail: string } {
-  if (state.phase === "loading") return { label: "Vérification…", ok: false, detail: "Vérification de la connexion à Ollama" };
+  if (state.phase === "loading") return { label: "Vérification…", ok: false, detail: "Vérification du moteur IA" };
   if (state.phase === "api_down") return { label: "API hors ligne", ok: false, detail: state.error.hint ?? state.error.message };
   const s = state.status;
-  if (!s.connected) return { label: "Ollama indisponible", ok: false, detail: s.error?.hint ?? "Lancez Ollama (ollama serve)." };
+  if (!s.connected) return { label: "Moteur IA indisponible", ok: false, detail: s.error?.hint ?? "Vérifiez la configuration du moteur IA." };
   if (!s.model_available) return { label: "Modèle manquant", ok: false, detail: s.error?.hint ?? "Installez le modèle configuré." };
-  return { label: `Ollama connecté · ${s.model}`, ok: true, detail: "Le moteur d'analyse est prêt." };
+  const engine = s.engine === "groq" ? "Groq" : "Ollama";
+  return { label: `${engine} connecté · ${s.model}`, ok: true, detail: "Le moteur d'analyse est prêt." };
 }
 
 export function OllamaStatusBadge() {

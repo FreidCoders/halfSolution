@@ -76,11 +76,11 @@ export function SettingsView() {
         </div>
       </Section>
 
-      <Section title="Configuration IA" description="Le moteur d'analyse tourne en local avec Ollama.">
+      <Section title="Configuration IA" description="Le moteur d'analyse configuré sur le serveur.">
         <dl className="grid gap-5 sm:grid-cols-2">
           <div><dt className="text-sm text-muted">Modèle utilisé</dt><dd className="mt-1 font-medium">{config?.model ?? (configError ? "Indisponible" : "…")}</dd></div>
           <div>
-            <dt className="text-sm text-muted">Connexion à Ollama</dt>
+            <dt className="text-sm text-muted">Connexion au moteur IA</dt>
             <dd className="mt-1 flex items-center gap-2 font-medium">
               <span aria-hidden className={cn("h-2.5 w-2.5 rounded-full", state.phase === "loading" ? "bg-muted" : status.ok ? "bg-olive" : "bg-danger")} />
               {status.ok ? "Connecté" : status.label}
@@ -91,12 +91,12 @@ export function SettingsView() {
         </dl>
         {!status.ok && state.phase !== "loading" && <Alert tone="error" title={status.label}>{status.detail}</Alert>}
         {state.phase === "ready" && state.status.connected && (
-          <p className="text-sm text-muted">Modèles installés : {state.status.installed_models.length ? state.status.installed_models.join(", ") : "aucun"}.</p>
+          <p className="text-sm text-muted">Modèles disponibles : {state.status.installed_models.length ? state.status.installed_models.join(", ") : "aucun"}.</p>
         )}
         <div className="flex flex-wrap items-center gap-3">
           <Button variant="secondary" onClick={refresh} icon={<RefreshCw aria-hidden className={cn("h-4 w-4", state.phase === "loading" && "hs-spin")} />}>Vérifier la connexion</Button>
         </div>
-        <p className="border-t border-line pt-4 text-sm text-muted">Le modèle et l&apos;adresse d&apos;Ollama se règlent côté serveur (variables <code className="rounded bg-cream px-1">OLLAMA_MODEL</code> et <code className="rounded bg-cream px-1">OLLAMA_BASE_URL</code>) : le backend ne permet pas de les changer depuis l&apos;interface.</p>
+        <p className="border-t border-line pt-4 text-sm text-muted">Le moteur IA se configure côté serveur. Les paramètres ne peuvent pas être modifiés depuis cette interface.</p>
       </Section>
 
       <Section title="Données locales" description="Historique des analyses sur cet appareil.">
